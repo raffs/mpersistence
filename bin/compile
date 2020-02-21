@@ -1,0 +1,6 @@
+#!/bin/bash
+
+echo "Starting compilation" && (
+    cd src
+    gcc -g3 -lm -o ../mpersistence -Wall *.c
+)
