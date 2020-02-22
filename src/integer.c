@@ -124,7 +124,6 @@ compute_persistence(struct integer_t *n)
     unsigned int persistence = 0;
     unsigned long long int np = 1, product = 1;
 
-    //print_integer(n);
     if (n->size < 2) return 0;
     persistence += 1;
 

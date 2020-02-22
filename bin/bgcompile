@@ -1,0 +1,7 @@
+#!/bin/bash
+
+echo "Starting BigNumber Generation compilation" && (
+    cd src
+    gcc -g3 -lm -o ../bngenerator -Wall bngenerator.c integer.c
+)
+
