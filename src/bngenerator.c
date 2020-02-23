@@ -49,19 +49,11 @@ main(int argc, char* argv[])
     signal(SIGINT, signal_handler);
     signal(SIGTERM, signal_handler);
 
-    /* initialize the values */
     continue_execution = 1;
-
-    init_integer(&number, 200);
-    number.value[0] = 2;
-    for (int i = 0; i < 200; i++)
-        number.value[i] = 7;
-
-    for (; continue_execution; increment(&number)) {
+    for (init_integer(&number, 4); continue_execution; increment(&number)) {
         print_integer(&number);
     }
 
-    /* compute the end of the execution */
     free_integer(&number); 
 
     return 0; /* that's all folks */

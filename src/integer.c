@@ -103,12 +103,13 @@ increment(struct integer_t * n)
 
         n->value[i] += 1;
 
+        /* If the number is out of order, than we can increment  */
         for (long j = 0; j < (n->size - 1); j++) {
             if (n->value[j] >  n->value[j + 1]) {
                 n->value[j + 1] = n->value[i];  
             }
         }
-        
+
         break; /* we finished the increment, we need to stop */
     }
 
