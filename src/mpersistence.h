@@ -17,15 +17,15 @@
 #ifndef __MPERSISTENCE_PUZZLE_H
 #define __MPERSISTENCE_PUZZLE_H
 
-#define MAX_PERSISTENCE 5
-
-#define MAX_DIGITS 2
-
 void signal_handler(int);
 void pprint(struct integer_t *, unsigned int, double);
+void write_to_file(struct integer_t *);
+void initialize(struct integer_t *);
 double compute_time(struct timespec *);
 
+#define LAST_FILE "mpersistence.last.number"
+
 #define lookfor_persistence_on(number, expr) \
-    for (init_integer(&number,1); expr; increment(&number))
+    for (initialize(&number); expr; increment(&number))
 
 #endif

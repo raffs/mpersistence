@@ -2,6 +2,9 @@
 bngenerator
 mpersistence
 
+# last number storage file
+mpersistence.last.number
+
 # Prerequisites
 *.d
 

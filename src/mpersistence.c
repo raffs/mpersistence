@@ -17,8 +17,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include <math.h>
 #include <signal.h>
+#include <sys/stat.h>
 
 #include "integer.h"
 #include "mpersistence.h"
@@ -44,6 +44,62 @@ pprint(struct integer_t *n, unsigned int p, double t)
         fprintf(stdout, "%d", n->value[i]);
 
     fprintf(stdout, " calculated in  %.6fs\n", t);
+}
+
+/**
+ * Initialize the first number to start looking for the persistence
+ * If the file LAST_FILE exists, than the number will be initialize
+ * with the latest number.
+ *
+ * This should help recover from an unexpected exit, and help us
+ * continue on our search.
+ */
+void initialize(struct integer_t *n)
+{
+    char c;
+    FILE *fp;
+    struct stat last_file;
+
+    if (lstat(LAST_FILE, &last_file) != -1)
+        fp = fopen(LAST_FILE, "r");
+
+    /* in case we have an open file, let's initialize the number
+     * from the value stored on the file and continue our search */
+    if (fp != NULL) {
+        init_integer(n, last_file.st_size);
+
+        for (long long i = 0; (c = fgetc(fp)) != EOF; i++)
+            n->value[i] = c - '0';
+
+        fclose(fp);
+
+        fprintf(stdout, "INFO: reading previous number: ");
+        print_integer(n);
+
+        return; /* our job is done here */
+    }
+
+    init_integer(n, 1);
+    return; /* that's all folks */
+}
+
+/**
+ * Given a number, write the number to a file on the path
+ * LAST_FILE. This should help recovery from unexpected halt of
+ * the system.
+ */
+void write_to_file(struct integer_t *n)
+{
+    FILE *fp;
+
+    fp = fopen(LAST_FILE, "w");
+    if (fp < 0)
+        return; /* if we can't open the file, we should move on */
+
+    for (int i = 0; i < n->size; ++i)
+        fprintf(fp, "%d", n->value[i]);
+
+    fclose(fp);
 }
 
 /**
@@ -106,7 +162,9 @@ main(int argc, char* argv[])
     dtime = compute_time(&start);
     fprintf(stdout, "\nDuration: %.3fs\n", dtime);
 
+    write_to_file(&number);
     fprintf(stdout, "Last computed number: "); print_integer(&number);
+
     free_integer(&number); 
 
     return 0; /* that's all folks */
