@@ -59,6 +59,13 @@ Minimum number of persistency 10 is 3778888999 calculated in  0.002118s
 Minimum number of persistency 11 is 277777788888899 calculated in  0.014940s
 ```
 
+## Performance
+
+In the following flame graph demostrates the function call and time spent when running the
+mpersistence program for a few seconds
+
+![Performance Flame Graph](https://raw.githubusercontent.com/raffs/mpersistence/master/img/performance-flame-graph.svg?sanitize=true)
+
 ## References
 
 * [Wikipedia: Persistence of a Number](https://en.wikipedia.org/wiki/Persistence_of_a_number)
