@@ -52,6 +52,7 @@ print_integer(struct integer_t *n)
     if (n != NULL) {
         for (int i = 0; i < n->size; ++i)
             fprintf(stdout, "%d", n->value[i]);
+
         fprintf(stdout, "\n");
     }
 }
@@ -68,14 +69,17 @@ reinit_integer(struct integer_t *n)
 
     if (n->size < 3) {
         n->value[0] = 1;
+
         for (int i = 1; i < n->size; i++)
             n->value[i] = 0;
+
+        return;
     }
-    else {
-        n->value[0] = 2;
-        for (int i = 1; i < n->size; i++)
-            n->value[i] = 6;
-    }
+
+    n->value[0] = 2;
+
+    for (int i = 1; i < n->size; i++)
+        n->value[i] = 6;
 }
 
 /**
@@ -91,6 +95,7 @@ increment(struct integer_t * n)
     for (long i = (n->size - 1); i >= 0; --i) {
 
         if (n->value[i] == 9) {
+
             /* if we hit only 9999's is time to double the number */
             if (i == 0) {
                 reinit_integer(n);
@@ -105,9 +110,8 @@ increment(struct integer_t * n)
 
         /* If the number is out of order, than we can increment  */
         for (long j = 0; j < (n->size - 1); j++) {
-            if (n->value[j] >  n->value[j + 1]) {
+            if (n->value[j] >  n->value[j + 1])
                 n->value[j + 1] = n->value[i];  
-            }
         }
 
         break; /* we finished the increment, we need to stop */
@@ -122,21 +126,18 @@ increment(struct integer_t * n)
 unsigned int 
 compute_persistence(struct integer_t *n)
 {
-    unsigned int persistence = 0;
+    unsigned int persistence = 1;
     unsigned long long int np = 1, product = 1;
 
     if (n->size < 2) return 0;
-    persistence += 1;
 
-    for (long i = 0; i < n->size; i++) {
+    for (long i = 0; i < n->size; i++)
         product = product * n->value[i]; 
-    }
 
     for (; product > 9 ; persistence += 1) {
         np = product; 
-        for (product = 1; np ; np /= 10) {
+        for (product = 1; np ; np /= 10)
             product = product * (np % 10);
-        }
     }
 
     return persistence;

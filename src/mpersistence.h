@@ -23,7 +23,7 @@ void write_to_file(struct integer_t *);
 void initialize(struct integer_t *);
 double compute_time(struct timespec *);
 
-#define LAST_FILE "mpersistence.last.number"
+#define LAST_FILE ".last-computed-number"
 
 #define lookfor_persistence_on(number, expr) \
     for (initialize(&number); expr; increment(&number))
