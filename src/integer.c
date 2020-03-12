@@ -58,8 +58,8 @@ print_integer(struct integer_t *n)
 }
 
 /**
- * Given an integer, let's double the size of the integer_t
- * struct
+ * Given an already created integer_t, let's expand
+ * the number with one more number on the array.
  */
 void
 reinit_integer(struct integer_t *n)
@@ -96,7 +96,7 @@ increment(struct integer_t * n)
 
         if (n->value[i] == 9) {
 
-            /* if we hit only 9999's is time to double the number */
+            /* if we hit only 9999's is time to expand the number */
             if (i == 0) {
                 reinit_integer(n);
                 break; /* we double the size, let's move one */
